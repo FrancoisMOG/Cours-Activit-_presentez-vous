@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cours : L'art de se présenter - MasterClass RH</title>
+    <style>
+        /* 
+         * DESIGN SYSTEM & VARIABLES
+         */
+        :root {
+            --primary-color: #2c3e50;       /* Bleu Nuit - Professionnel */
+            --primary-light: #34495e;
+            --accent-color: #e67e22;        /* Orange dynamique pour l'action */
+            --accent-hover: #d35400;
+            --bg-body: #f8f9fa;             /* Gris très clair pour le confort de lecture */
+            --bg-card: #ffffff;
+            --text-main: #333333;
+            --text-light: #666666;
+            --success-color: #27ae60;
+            --danger-color: #c0392b;
+            --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+            --radius: 8px;
+            --font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        /* RESET & BASE */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        /* LAYOUT PRINCIPAL */
+        .app-container {
+            display: block; /* Plus de Flex, c'est un document centré */
+            width: 100%;
+        }
+
+        /* CONTENU PRINCIPAL */
+        .main-content {
+            margin: 0 auto; /* Centrage horizontal */
+            padding: 3rem 4rem;
+            max-width: 1000px; /* Largeur confortable pour la lecture */
+        }
+
+        /* TYPOGRAPHIE & ELEMENTS */
+        h1 { font-size: 2.5rem; color: var(--primary-color); margin-bottom: 1rem; line-height: 1.2; text-align: center; }
+        h2 { font-size: 1.8rem; color: var(--primary-light); margin: 3rem 0 1.5rem; padding-bottom: 0.5rem; border-bottom: 2px solid #eee; display: flex; align-items: center; gap: 10px; }
+        h3 { font-size: 1.3rem; color: var(--text-main); margin: 1.5rem 0 1rem; font-weight: 600; }
+        p { margin-bottom: 1rem; color: var(--text-light); }
+        ul { margin-bottom: 1rem; padding-left: 1.5rem; color: var(--text-light); }
+        li { margin-bottom: 0.5rem; }
+
+        /* HERO SECTION */
+        .hero {
+            background: #ffffff;
+            border: 2px solid var(--accent-color);
+            color: var(--primary-color);
+            padding: 3rem;
+            border-radius: var(--radius);
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow-md);
+            text-align: center; /* Centré */
+        }
+        
+        .hero p { color: var(--text-light); font-size: 1.1rem; }
+        
+        .objectives-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .obj-card {
+            background: var(--bg-body);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            border-left: 4px solid var(--accent-color);
+            transition: transform 0.2s;
+        }
+
+        .obj-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+        .obj-card strong { display: block; color: var(--primary-color); margin-bottom: 0.5rem; }
+
+        /* TABLEAU COMPARATIF RH */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            overflow: hidden;
+            margin: 2rem 0;
+        }
+
+        .comparison-table th, .comparison-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .comparison-table th { background: var(--primary-color); color: white; }
+        .comparison-table tr:last-child td { border-bottom: none; }
+        
+        /* TABS INTERACTIFS (Dimensions) */
+        .tabs-container {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+            margin: 2rem 0;
+        }
+
+        .tabs-header {
+            display: flex;
+            background: #eee;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 1rem;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-light);
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .tab-btn.active {
+            background: white;
+            color: var(--accent-color);
+            border-top: 3px solid var(--accent-color);
+        }
+
+        .tab-content {
+            padding: 2rem;
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+        .tab-content.active { display: block; }
+
+        /* ERREURS & BADGES */
+        .badges-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .badge {
+            background: #fff0f0;
+            color: var(--danger-color);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            border: 1px solid #ffdcdc;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* ETAPES (Timeline style) */
+        .step-list { counter-reset: step; }
+        .step-item {
+            position: relative;
+            padding-left: 3rem;
+            margin-bottom: 2rem;
+        }
+        .step-item::before {
+            counter-increment: step;
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 2rem;
+            height: 2rem;
+            background: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 2rem;
+            font-weight: bold;
+        }
+
+        /* CONCLUSION */
+        #conclusion > div {
+            background: white;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            padding: 2rem;
+            border-radius: var(--radius);
+            text-align: center;
+            box-shadow: none;
+        }
+        #conclusion h2 { border-bottom: none; color: var(--primary-color); justify-content: center; }
+        #conclusion p { color: var(--text-light); }
+
+        /* FOOTER ACTIONS */
+        .footer-actions {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            width: 100%; /* Pleine largeur car plus de sidebar */
+            background: white;
+            padding: 1rem 4rem;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.05);
+            display: flex;
+            justify-content: center; /* Centré */
+            gap: 1rem;
+            z-index: 90;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--radius);
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-secondary {
+            background: white;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+        .btn-secondary:hover { background: #f0f4f8; }
+
+        .btn-primary {
+            background: var(--accent-color);
+            color: white;
+            box-shadow: 0 4px 10px rgba(230, 126, 34, 0.3);
+        }
+        .btn-primary:hover { background: var(--accent-hover); transform: translateY(-2px); }
+
+        /* TOAST NOTIFICATION */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--primary-color);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        .toast.show { transform: translateY(0); opacity: 1; }
+
+        /* ANIMATIONS */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* RESPONSIVE */
+        @media (max-width: 900px) {
+            .main-content { padding: 2rem 1.5rem; }
+            .footer-actions { padding: 1rem; }
+        }
+
+        /* PRINT STYLES (OPTIMISÉ POUR MINIMISER LE NOMBRE DE PAGES) */
+        @media print {
+            /* 1. Configuration de la page (Marges ultra-serrées) */
+            @page {
+                size: A4;
+                margin: 1cm; /* Marge minimale pour l'imprimante */
+            }
+
+            /* 2. Force le conteneur principal en mode bloc */
+            .app-container {
+                display: block !important;
+                width: 100% !important;
+                height: auto !important;
+                overflow: visible !important;
+            }
+
+            /* 3. Contenu principal : largeur 100%, AUCUN padding interne pour gagner de la place */
+            .main-content {
+                width: 100% !important;
+                max-width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important; /* Utilise les marges de @page */
+                height: auto !important;
+                overflow: visible !important;
+            }
+
+            /* 4. Masquer l'interface */
+            .footer-actions, .tabs-header, .tab-btn, .toast { display: none !important; }
+
+            /* 5. OPTIMISATION DE LA TYPOGRAPHIE (Compacte) */
+            body {
+                font-size: 9pt !important; /* Police plus petite */
+                line-height: 1.2 !important; /* Interligne resserré */
+                background: white !important;
+                color: black !important;
+            }
+            
+            h1 { font-size: 14pt !important; margin: 5px 0 !important; border: none !important; padding: 0 !important; }
+            h2 { font-size: 11pt !important; margin: 10px 0 5px 0 !important; border-bottom: 1px solid #ddd !important; padding-bottom: 2px !important; page-break-after: avoid; }
+            h3 { font-size: 10pt !important; margin: 5px 0 !important; }
+            p, li, td, th { font-size: 9pt !important; margin: 1px 0 !important; padding: 0 !important; line-height: 1.2 !important; }
+            ul, ol { margin: 2px 0 !important; padding-left: 15px !important; }
+            
+            /* 6. Afficher tout le contenu des onglets */
+            .tab-content {
+                display: block !important;
+                border: 1px solid #ccc !important;
+                padding: 5px !important;
+                margin: 5px 0 !important;
+                height: auto !important;
+                overflow: visible !important;
+                page-break-inside: avoid; /* Essayer de garder l'onglet entier sur une page */
+            }
+
+            /* 7. Compactage des éléments visuels (Cartes, Badges, etc.) */
+            .hero, .obj-card, #conclusion > div, .comparison-table, .tabs-container, .step-list, .step-item {
+                background: white !important;
+                color: black !important;
+                box-shadow: none !important;
+                height: auto !important;
+                overflow: visible !important;
+                margin: 5px 0 !important; /* Marges minimes */
+            }
+
+            /* Grid -> Stack pour économiser l'espace horizontal */
+            .objectives-grid {
+                display: block !important;
+                margin: 0 !important;
+                gap: 0 !important;
+            }
+            .obj-card {
+                display: block !important;
+                border: none !important; /* Pas de bordure, juste le texte */
+                padding: 2px 0 !important;
+                margin: 2px 0 !important;
+            }
+            .obj-card strong { display: inline !important; font-weight: bold; margin: 0 !important; }
+
+            .hero { border: none !important; padding: 0 !important; text-align: left !important; }
+            .hero::before { display: none !important; }
+            .hero br { display: none !important; }
+
+            .comparison-table { border: 1px solid black !important; width: 100% !important; }
+            .comparison-table th, .comparison-table td { 
+                border: 1px solid #000 !important; 
+                padding: 2px 5px !important; /* Padding très serré */
+                vertical-align: top !important;
+            }
+            
+            #conclusion > div { border: 1px solid black !important; padding: 5px !important; }
+            #conclusion h2 { justify-content: center; border: none !important; margin: 0 !important; }
+
+            /* Badges serrés */
+            .badges-list { gap: 2px !important; display: flex !important; }
+            .badge {
+                background: white !important;
+                border: 1px solid #999 !important;
+                color: black !important;
+                padding: 0 4px !important;
+                margin: 0 !important;
+                font-size: 8pt !important;
+                border-radius: 0 !important;
+                display: inline-flex !important;
+            }
+
+            /* Steps compactes */
+            .step-item { padding-left: 20px !important; margin-bottom: 5px !important; }
+            .step-item::before {
+                width: 14px !important; height: 14px !important; line-height: 14px !important; font-size: 8pt !important;
+            }
+
+            /* 8. Gestion agressive des sauts de page pour remplir la page */
+            section { display: block !important; page-break-before: auto; page-break-after: auto; }
+            h1 { page-break-after: avoid; }
+            
+            /* On retire page-break-inside: avoid sur les paragraphes pour permettre un remplissage complet des pages */
+            p, li { page-break-inside: auto; }
+            
+            /* On garde l'évitement de coupure sur les tableaux et gros blocs */
+            table, .tab-content, .step-item { page-break-inside: avoid; }
+
+            /* 9. Liens */
+            a { text-decoration: none !important; color: black !important; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <!-- CONTENU PRINCIPAL -->
+    <main class="main-content">
+        
+        <!-- HERO / INTRO -->
+        <header class="hero fade-in-section" id="intro">
+            <h1>L’importance d’une bonne présentation</h1>
+            <p>Module stratégique : Réussir sa réponse à "Présentez-vous"</p>
+            <br>
+            <p><strong>🎯 Objectifs pédagogiques</strong></p>
+            <div class="objectives-grid" style="margin-top: 1rem; color:black;">
+                <div class="obj-card" style="background: #ffffff; border: 1px solid #eee; color: black;">
+                    <strong>Comprendre la stratégie</strong>
+                    <p style="color: var(--text-light); font-size: 0.9rem;">Saisir pourquoi cette question ouvre la porte de l'entretien.</p>
+                </div>
+                <div class="obj-card" style="background: #ffffff; border: 1px solid #eee; color: black;">
+                    <strong>Structurer clairement</strong>
+                    <p style="color: var(--text-light); font-size: 0.9rem;">Apprendre à synthétiser son parcours.</p>
+                </div>
+                <div class="obj-card" style="background: #ffffff; border: 1px solid #eee; color: black;">
+                    <strong>Éviter les pièges</strong>
+                    <p style="color: var(--text-light); font-size: 0.9rem;">Identifier ce qui décrédibilise un candidat.</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- SECTION 1 : POURQUOI ? -->
+        <section class="fade-in-section" id="enjeux">
+            <h2>1. Pourquoi cette question est décisive ?</h2>
+            <p>La question “Présentez-vous” n’est pas une simple formalité. C’est le moment où le recruteur se fait une première idée du candidat, de sa maturité professionnelle et de sa capacité à communiquer.</p>
+            
+            <div style="background: #eef2f7; padding: 1.5rem; border-left: 5px solid var(--primary-color); border-radius: 4px;">
+                <h4>🧠 Ce que le recruteur évalue réellement :</h4>
+                <ul>
+                    <li>La capacité à synthétiser un parcours complexe.</li>
+                    <li>La pertinence des éléments choisis par rapport au poste.</li>
+                    <li>La cohérence entre le discours et les besoins de l'entreprise.</li>
+                    <li>Le niveau de préparation (l'improvisation se voit vite).</li>
+                    <li>La confiance en soi et la gestion du stress initial.</li>
+                </ul>
+            </div>
+            <p style="margin-top: 1rem; font-style: italic; color: var(--accent-color);">👉 Une bonne présentation crée immédiatement un <strong>effet de halo positif</strong> qui influence tout le reste de l’entretien.</p>
+        </section>
+
+        <!-- SECTION 2 : ENJEUX RH -->
+        <section class="fade-in-section" id="rh-stakes">
+            <h2>2. Les enjeux RH derrière cette question</h2>
+            <p>En tant qu’ancien RH, voici comment décoder la question. C'est un test de professionnalisme déguisé.</p>
+            
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Ce que dit le candidat</th>
+                        <th>Ce que le recruteur comprend</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Présentation claire et structurée</td>
+                        <td style="color: var(--success-color); font-weight: bold;">Capacité à communiquer efficacement</td>
+                    </tr>
+                    <tr>
+                        <td>Mise en avant des éléments pertinents</td>
+                        <td style="color: var(--success-color); font-weight: bold;">Intelligence professionnelle</td>
+                    </tr>
+                    <tr>
+                        <td>Ton calme et posé</td>
+                        <td style="color: var(--success-color); font-weight: bold;">Maîtrise de soi, fiabilité</td>
+                    </tr>
+                    <tr>
+                        <td>Discours cohérent avec le poste</td>
+                        <td style="color: var(--success-color); font-weight: bold;">Compréhension du métier</td>
+                    </tr>
+                    <tr>
+                        <td>Réponse trop longue ou floue</td>
+                        <td style="color: var(--danger-color);">Manque de recul, désorganisation</td>
+                    </tr>
+                    <tr>
+                        <td>Justifications ou excuses</td>
+                        <td style="color: var(--danger-color);">Fragilité professionnelle</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- SECTION 3 : 3 DIMENSIONS (TABS) -->
+        <section class="fade-in-section" id="dimensions">
+            <h2>3. Les 3 dimensions d’une bonne présentation</h2>
+            <p>Réussir son pitch demande de travailler sur trois niveaux simultanés.</p>
+
+            <div class="tabs-container">
+                <div class="tabs-header">
+                    <button class="tab-btn active" onclick="openTab(event, 'fond')">🧠 Le Fond</button>
+                    <button class="tab-btn" onclick="openTab(event, 'forme')">🗣️ La Forme</button>
+                    <button class="tab-btn" onclick="openTab(event, 'nonverbal')">🤝 Le Non-Verbal</button>
+                </div>
+
+                <div id="fond" class="tab-content active">
+                    <h3>Ce que vous dites</h3>
+                    <p>Une bonne réponse doit être :</p>
+                    <ul>
+                        <li><strong>Ciblée :</strong> adaptée spécifiquement au poste.</li>
+                        <li><strong>Sélective :</strong> on ne raconte pas toute sa vie, seulement le pertinent.</li>
+                        <li><strong>Professionnelle :</strong> centrée sur compétences, expériences, résultats.</li>
+                        <li><strong>Orientée valeur :</strong> ce que vous apportez à l'entreprise.</li>
+                    </ul>
+                    <div style="background: #fff8e1; padding: 1rem; border-radius: var(--radius); margin-top: 1rem;">
+                        <strong>Structure recommandée (Simple) :</strong>
+                        <ol style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li>Qui je suis (profil, métier, expérience globale).</li>
+                            <li>Ce que j’ai fait (réalisations clés, compétences).</li>
+                            <li>Ce que je veux apporter (motivation + valeur pour le poste).</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div id="forme" class="tab-content">
+                    <h3>Comment vous le dites</h3>
+                    <p>Le recruteur observe la qualité de l'expression orale.</p>
+                    <ul>
+                        <li><strong>Le rythme :</strong> Ni robotique, ni précipité.</li>
+                        <li><strong>La clarté :</strong> Phrases courtes, vocabulaire précis.</li>
+                        <li><strong>Le vocabulaire :</strong> Utilisez les mots-clés du métier (jargon professionnel adapté).</li>
+                        <li><strong>La capacité à aller à l’essentiel :</strong> Faire des phrases courtes.</li>
+                    </ul>
+                    <p style="margin-top: 1rem;">👉 Une réponse maîtrisée montre que vous savez vous présenter à un client ou un manager.</p>
+                </div>
+
+                <div id="nonverbal" class="tab-content">
+                    <h3>Ce que vous montrez</h3>
+                    <p>Le non-verbal peut crédibiliser ou détruire un discours parfait.</p>
+                    <ul>
+                        <li><strong>Regard :</strong> Stable, soutenu (mais fixe).</li>
+                        <li><strong>Sourire :</strong> Léger, bienveillant.</li>
+                        <li><strong>Posture :</strong> Ouverte, pas avachie ni croisée.</li>
+                        <li><strong>Respiration :</strong> Calme pour contrôler le stress.</li>
+                        <li><strong>Gestuelle :</strong> Maîtrisée, pour appuyer les points clés.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 4 : ERREURS -->
+        <section class="fade-in-section" id="erreurs">
+            <h2>4. Les erreurs les plus fréquentes</h2>
+            <p>Le recruteur doit comprendre en 60 à 90 secondes pourquoi vous êtes un bon candidat. Voici ce qu'il faut éviter absolument :</p>
+            <div class="badges-list">
+                <div class="badge">❌ Raconter sa vie depuis l’enfance</div>
+                <div class="badge">❌ Liste chronologique interminable</div>
+                <div class="badge">❌ Lire un texte appris par cœur</div>
+                <div class="badge">❌ Parler trop vite (stress)</div>
+                <div class="badge">❌ Se dévaloriser ("je ne sais pas si...")</div>
+                <div class="badge">❌ Être trop vague ("j'aime le travail en équipe")</div>
+                <div class="badge">❌ Ne pas faire le lien avec le poste</div>
+            </div>
+        </section>
+
+        <!-- SECTION 5 : CONSTRUCTION -->
+        <section class="fade-in-section" id="construction">
+            <h2>5. Comment construire une réponse impactante ?</h2>
+            <div class="step-list">
+                <div class="step-item">
+                    <h4>Étape 1 : Identifier les éléments pertinents</h4>
+                    <p>Faites une analyse du poste et de votre CV :</p>
+                    <ul>
+                        <li>Compétences clés demandées.</li>
+                        <li>Expériences les plus proches du besoin.</li>
+                        <li>Résultats mesurables (chiffres, faits).</li>
+                        <li>Vos 3 forces principales pour ce rôle.</li>
+                    </ul>
+                </div>
+                <div class="step-item">
+                    <h4>Étape 2 : Construire un pitch clair</h4>
+                    <p>Utilisez la structure suivante :</p>
+                    <ul>
+                        <li><em>Profil :</em> "Je suis [Nom], avec [X] années d’expérience dans [Domaine]..."</li>
+                        <li><em>Expertise :</em> "J’ai développé des compétences solides en [Compétence 1] et [Compétence 2]..."</li>
+                        <li><em>Réalisations :</em> "Par exemple, j'ai mené à bien [Projet] ce qui a permis [Résultat]..."</li>
+                        <li><em>Objectif :</em> "Aujourd’hui, je souhaite apporter mon expertise à [Entreprise] pour..."</li>
+                    </ul>
+                </div>
+                <div class="step-item">
+                    <h4>Étape 3 : S’entraîner à l’oral</h4>
+                    <p>L'écrit et l'oral sont différents.</p>
+                    <ul>
+                        <li>Répéter devant un miroir.</li>
+                        <li>Se filmer (très efficace pour voir les tics).</li>
+                        <li>Chronométrer : L'idéal est entre <strong>1 min et 1 min 30</strong>.</li>
+                        <li>Ajuster le ton et le rythme.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONCLUSION -->
+        <section class="fade-in-section" id="conclusion">
+            <div>
+                <h2>Conclusion</h2>
+                <p>
+                    La question “Présentez-vous” est un moment stratégique qui révèle votre capacité à communiquer, 
+                    votre compréhension du poste et votre maturité professionnelle.
+                </p>
+                <p style="margin-top: 1rem; font-weight: bold;">
+                    Une bonne présentation n’est pas un discours parfait, mais un message clair, 
+                    cohérent et orienté valeur.
+                </p>
+            </div>
+        </section>
+        
+        <br><br><br> <!-- Espace pour le footer fixe -->
+    </main>
+
+    <!-- FOOTER ACTIONS -->
+    <footer class="footer-actions no-print">
+        <button class="btn btn-secondary" onclick="showActivities()">
+            <span>🎮</span> Activité
+        </button>
+        <button class="btn btn-primary" onclick="downloadPDF()">
+            <span>📄</span> Télécharger en PDF
+        </button>
+    </footer>
+</div>
+
+<!-- TOAST NOTIFICATION -->
+<div id="toast" class="toast">
+    Accès au module d'activités... (Redirection)
+</div>
+
+<script>
+    /**
+     * GESTION DES ONGLETS (TABS)
+     */
+    function openTab(evt, tabName) {
+        var tabContent = document.getElementsByClassName("tab-content");
+        for (var i = 0; i < tabContent.length; i++) {
+            tabContent[i].style.display = "none";
+            tabContent[i].classList.remove("active");
+        }
+
+        var tabLinks = document.getElementsByClassName("tab-btn");
+        for (var i = 0; i < tabLinks.length; i++) {
+            tabLinks[i].className = tabLinks[i].className.replace(" active", "");
+        }
+
+        document.getElementById(tabName).style.display = "block";
+        document.getElementById(tabName).classList.add("active");
+        evt.currentTarget.className += " active";
+    }
+
+    /**
+     * FONCTIONNALITÉ PDF
+     */
+    function downloadPDF() {
+        window.print();
+    }
+
+    /**
+     * SIMULATION ACTIVITÉS
+     */
+    function showActivities() {
+        const toast = document.getElementById('toast');
+        toast.innerText = "Accès au module d'activités interactives... (Redirection)";
+        toast.classList.add('show');
+        
+        setTimeout(() => {
+            toast.classList.remove('show');
+        }, 3000);
+    }
+</script>
+
+</body>
+</html>
